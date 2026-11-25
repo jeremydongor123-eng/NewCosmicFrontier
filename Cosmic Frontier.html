@@ -1,0 +1,1058 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Cosmic Frontier</title>
+<style>
+/* Cosmic Frontier — design system (no inline styles: CSP-friendly) */
+:root{color-scheme:dark;
+  --bg:#05070f;--surface:rgba(18,26,52,.62);--surface-solid:#0f1730;
+  --line:rgba(140,170,255,.16);--line-strong:rgba(140,170,255,.34);
+  --text:#eef3ff;--muted:#aebbd6;--faint:#8493b3;
+  --accent:#62d4ff;--accent-2:#8f84ff;--warm:#ffb454;--good:#5eead4;--danger:#ff7a8a;
+  --radius:16px;
+  --font-display:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;overflow-x:hidden;min-height:100vh;font-family:var(--font);color:var(--text);line-height:1.65;
+  background:radial-gradient(1100px 700px at 85% -10%,rgba(98,212,255,.10),transparent 60%),
+             radial-gradient(900px 600px at -10% 25%,rgba(143,132,255,.12),transparent 60%),var(--bg);
+  background-attachment:fixed}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure{margin:0}
+ul,ol{padding:0}
+svg{max-width:100%}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font:inherit;color:inherit;cursor:pointer}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+#starfield{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.container{width:min(1160px,100% - 2.5rem);margin-inline:auto}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-999px;top:0;background:var(--accent);color:#04101f;padding:.6rem 1rem;z-index:100;border-radius:0 0 8px 0}
+.skip:focus{left:0}
+.small{font-size:.88rem;color:var(--faint)}
+
+/* header */
+.site-header{position:sticky;top:0;z-index:50;background:rgba(5,7,15,.74);backdrop-filter:blur(14px) saturate(1.4);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:68px}
+.brand{display:flex;align-items:center;gap:.6rem;font-family:var(--font-display);font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text)}
+.brand:hover{text-decoration:none;color:var(--accent)}
+.brand-mark{width:30px;height:30px}.bm-core{fill:var(--accent)}.bm-ring{fill:none;stroke:var(--warm);stroke-width:1.6}
+.site-nav{display:flex;align-items:center;gap:1.2rem}
+.site-nav ul{list-style:none;display:flex;gap:.15rem}
+.site-nav li a{display:block;padding:.45rem .8rem;border-radius:999px;color:var(--muted);font-size:.93rem}
+.site-nav li a:hover{color:var(--text);background:rgba(255,255,255,.06);text-decoration:none}
+.site-nav li a[aria-current=page]{color:var(--text);background:rgba(98,212,255,.14);box-shadow:inset 0 0 0 1px rgba(98,212,255,.4)}
+.nav-toggle{display:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--line-strong);background:rgba(255,255,255,.04);align-items:center;justify-content:center}
+.nav-toggle span,.nav-toggle span::before,.nav-toggle span::after{display:block;width:20px;height:2px;background:var(--text);border-radius:2px;content:"";position:relative;transition:.2s}
+.nav-toggle span::before{position:absolute;top:-6px}.nav-toggle span::after{position:absolute;top:6px}
+.nav-toggle[aria-expanded=true] span{background:transparent}
+.nav-toggle[aria-expanded=true] span::before{top:0;transform:rotate(45deg)}
+.nav-toggle[aria-expanded=true] span::after{top:0;transform:rotate(-45deg)}
+@media(max-width:940px){
+  .nav-toggle{display:inline-flex}
+  .site-nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;padding:1rem 1.25rem 1.4rem;background:rgba(7,11,24,.98);border-bottom:1px solid var(--line)}
+  .site-nav.open{display:flex}
+  .site-nav ul{flex-direction:column}
+}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.72rem 1.35rem;border-radius:999px;border:1px solid transparent;font-weight:650;font-size:.95rem;transition:transform .15s,box-shadow .2s,background .2s}
+.btn:hover{text-decoration:none;transform:translateY(-1px)}
+.btn-primary{background:linear-gradient(135deg,#46c0f5,#8a79ff);color:#04101f;box-shadow:0 6px 24px rgba(98,212,255,.28)}
+.btn-ghost{background:rgba(255,255,255,.04);border-color:var(--line-strong);color:var(--text)}
+.btn-ghost:hover{background:rgba(98,212,255,.12);border-color:var(--accent)}
+.btn-danger{background:rgba(255,122,138,.1);border-color:rgba(255,122,138,.5);color:#ffc2c9}
+.btn-danger:hover{background:rgba(255,122,138,.2)}
+.btn-sm{padding:.42rem .95rem;font-size:.85rem}
+.btn[disabled]{opacity:.55;cursor:not-allowed;transform:none}
+.btn-block{width:100%}
+
+/* hero */
+.hero{position:relative;padding:clamp(3.2rem,8vw,6.5rem) 0 clamp(2rem,5vw,3.5rem)}
+.hero::before{content:"";position:absolute;top:-25%;right:-12%;width:min(760px,70vw);aspect-ratio:1;background:radial-gradient(circle,rgba(143,132,255,.22),transparent 65%);filter:blur(24px);z-index:-1}
+.eyebrow{color:var(--accent);font-weight:700;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase}
+h1{font-family:var(--font-display);font-size:clamp(2.5rem,6.4vw,4.8rem);line-height:1.04;letter-spacing:-.01em;margin:.6rem 0 1.1rem}
+h2{font-family:var(--font-display);font-size:clamp(1.7rem,3.6vw,2.5rem);line-height:1.15;margin-bottom:.6rem}
+h3{font-size:1.15rem;line-height:1.3}
+.grad{background:linear-gradient(100deg,#7fe0ff,#a79bff 55%,#ffc27a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:clamp(1.05rem,1.6vw,1.25rem);color:var(--muted);max-width:60ch}
+.hero-simple h1{font-size:clamp(2.2rem,5vw,3.8rem)}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:2rem;align-items:center}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.6rem}
+.fact{margin-top:1.8rem;padding:.8rem 1rem;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--muted);font-size:.92rem;max-width:56ch}
+.fact-label{color:var(--warm);font-weight:700;text-transform:uppercase;font-size:.72rem;letter-spacing:.14em;margin-right:.5rem}
+.hero-visual{position:relative;aspect-ratio:1;width:100%;max-width:440px;justify-self:center}
+.hv-planet{position:absolute;inset:20%;border-radius:50%;background:radial-gradient(circle at 32% 28%,#c6edff 0,#4f9bd9 26%,#2a3f9c 54%,#0a1230 86%);box-shadow:0 0 90px rgba(98,212,255,.38),inset -24px -20px 56px rgba(0,0,10,.65);animation:float 9s ease-in-out infinite}
+.hv-orbit{position:absolute;inset:4%;border-radius:50%;border:1px dashed rgba(160,190,255,.3);animation:spin 38s linear infinite}
+.hv-orbit::after{content:"";position:absolute;top:-6px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:#eaf0ff;box-shadow:0 0 14px #fff}
+.hv-orbit-2{inset:-6%;animation-duration:70s;animation-direction:reverse;border-color:rgba(255,180,84,.28)}
+.hv-orbit-2::after{background:var(--warm);box-shadow:0 0 14px var(--warm);width:9px;height:9px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes float{50%{transform:translateY(-10px)}}
+@media(max-width:820px){.hero-grid{grid-template-columns:1fr}.hero-visual{max-width:280px;order:-1}}
+
+/* sections */
+.section{padding:clamp(2.4rem,6vw,4.5rem) 0}
+.section-head{max-width:62ch;margin-bottom:1.6rem}
+.section-head p{color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+.stat{padding:1.3rem;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+.stat b{display:block;font-family:var(--font-display);font-size:2.4rem;line-height:1.1;background:linear-gradient(100deg,#7fe0ff,#ffc27a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{color:var(--muted);font-size:.92rem}
+
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.25rem}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;backdrop-filter:blur(6px);transition:transform .25s,border-color .25s,box-shadow .25s}
+.card:hover{transform:translateY(-4px);border-color:var(--line-strong);box-shadow:0 14px 40px rgba(20,40,120,.35)}
+.card-body{padding:1.15rem 1.25rem 1.35rem}
+.card h3{font-family:var(--font-display);font-size:1.35rem;margin:.35rem 0 .4rem}
+.card p{color:var(--muted);font-size:.95rem}
+.card .more{display:inline-block;margin-top:.7rem;font-weight:600}
+.keyfact{margin-top:.8rem;padding-top:.8rem;border-top:1px dashed var(--line);font-size:.88rem;color:var(--faint)}
+.keyfact b{color:var(--warm)}
+.badge{display:inline-block;padding:.15rem .7rem;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;border-radius:999px;border:1px solid rgba(98,212,255,.4);color:var(--accent);background:rgba(98,212,255,.08)}
+.badge-warm{color:var(--warm);border-color:rgba(255,180,84,.45);background:rgba(255,180,84,.08)}
+.badge-violet{color:#b9b1ff;border-color:rgba(143,132,255,.5);background:rgba(143,132,255,.1)}
+.badge-green{color:var(--good);border-color:rgba(94,234,212,.45);background:rgba(94,234,212,.08)}
+.bm{position:absolute;top:.7rem;right:.7rem;z-index:2;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line-strong);background:rgba(5,7,15,.65);transition:.2s}
+.bm svg{width:18px;height:18px;fill:none;stroke:var(--text);stroke-width:2}
+.bm:hover{border-color:var(--warm)}
+.bm[aria-pressed=true]{background:rgba(255,180,84,.2);border-color:var(--warm)}
+.bm[aria-pressed=true] svg{fill:var(--warm);stroke:var(--warm)}
+.event .bm{top:1rem}
+
+/* CSS art for cards */
+.art{position:relative;height:150px;overflow:hidden;background:linear-gradient(180deg,#0b1430,#0a0f24)}
+.art::before,.art::after{content:"";position:absolute}
+.art-planet::before{width:92px;height:92px;left:50%;top:50%;margin:-46px;border-radius:50%;background:radial-gradient(circle at 30% 28%,#c6edff,#3f86d1 45%,#0b1a3a 85%);box-shadow:0 0 40px rgba(98,212,255,.4),inset -10px -8px 22px rgba(0,0,12,.6)}
+.art-planet::after{width:170px;height:34px;left:50%;top:50%;margin:-17px -85px;border:3px solid rgba(255,214,150,.5);border-radius:50%;transform:rotate(-16deg);clip-path:inset(50% 0 0 0)}
+.art-galaxy::before{width:190px;height:190px;left:50%;top:50%;margin:-95px;border-radius:50%;background:radial-gradient(circle,#fff 0 3%,rgba(255,224,170,.95) 7%,transparent 40%),conic-gradient(from 0deg,transparent,rgba(143,132,255,.85),transparent 28%,rgba(98,212,255,.75) 52%,transparent 78%);-webkit-mask-image:radial-gradient(circle,#000 25%,transparent 68%);mask-image:radial-gradient(circle,#000 25%,transparent 68%);transform:rotate(-20deg) scaleY(.5);animation:galaxy 40s linear infinite}
+@keyframes galaxy{to{transform:rotate(340deg) scaleY(.5)}}
+.art-bh::before{width:120px;height:120px;left:50%;top:50%;margin:-60px;border-radius:50%;background:radial-gradient(circle,#000 0 33%,transparent 34%),conic-gradient(from 90deg,#ffb454,#ff6a3d,#ffe9b8,#ff6a3d,#ffb454);-webkit-mask-image:radial-gradient(circle,#000 56%,transparent 70%);mask-image:radial-gradient(circle,#000 56%,transparent 70%);filter:blur(.4px);animation:spin 18s linear infinite}
+.art-bh::after{width:60px;height:60px;left:50%;top:50%;margin:-30px;border-radius:50%;background:#000;box-shadow:0 0 30px 6px rgba(255,160,80,.4)}
+.art-nebula::before{inset:-20%;background:radial-gradient(circle at 30% 40%,rgba(255,92,170,.7),transparent 42%),radial-gradient(circle at 68% 55%,rgba(98,212,255,.65),transparent 45%),radial-gradient(circle at 50% 80%,rgba(143,132,255,.7),transparent 42%);filter:blur(10px);animation:float 12s ease-in-out infinite}
+.art-nebula::after{inset:0;background:radial-gradient(1.5px 1.5px at 20% 30%,#fff,transparent),radial-gradient(1.5px 1.5px at 70% 25%,#fff,transparent),radial-gradient(1px 1px at 55% 70%,#fff,transparent),radial-gradient(1px 1px at 85% 80%,#fff,transparent)}
+.art-exo::before{width:96px;height:96px;left:30%;top:50%;margin:-48px;border-radius:50%;background:radial-gradient(circle,#fff8d8,#ffcf6b 45%,rgba(255,160,60,.2) 75%,transparent);box-shadow:0 0 50px rgba(255,200,100,.4)}
+.art-exo::after{width:22px;height:22px;top:50%;margin-top:-11px;border-radius:50%;background:#070a16;box-shadow:inset -3px -2px 6px rgba(98,212,255,.4);left:8%;animation:transit 7s ease-in-out infinite}
+@keyframes transit{0%{left:5%}100%{left:80%}}
+.art-pulsar::before{width:14px;height:14px;left:50%;top:50%;margin:-7px;border-radius:50%;background:#fff;box-shadow:0 0 22px 8px rgba(98,212,255,.8)}
+.art-pulsar::after{width:300px;height:300px;left:50%;top:50%;margin:-150px;background:conic-gradient(from 0deg,rgba(98,212,255,.55) 0 5deg,transparent 5deg 175deg,rgba(98,212,255,.55) 175deg 180deg,transparent 180deg);-webkit-mask-image:radial-gradient(circle,#000 5%,transparent 62%);mask-image:radial-gradient(circle,#000 5%,transparent 62%);animation:spin 3s linear infinite}
+.art-moon::before{width:100px;height:100px;left:50%;top:50%;margin:-50px;border-radius:50%;background:radial-gradient(circle at 32% 30%,#f2f2ee,#a9a9a5 55%,#4a4a52);box-shadow:0 0 36px rgba(220,230,255,.3)}
+.art-moon::after{width:14px;height:14px;left:62%;top:34%;border-radius:50%;background:rgba(0,0,0,.18);box-shadow:-26px 30px 0 4px rgba(0,0,0,.16),10px 38px 0 -2px rgba(0,0,0,.14)}
+.art-titan::before{width:100px;height:100px;left:50%;top:50%;margin:-50px;border-radius:50%;background:radial-gradient(circle at 32% 30%,#ffd896,#d98f2d 55%,#5a3410);box-shadow:0 0 40px rgba(255,170,60,.35)}
+.art-titan::after{width:12px;height:4px;left:calc(50% + 40px);top:calc(50% - 40px);background:#e8eefc;border-radius:2px;box-shadow:-8px 0 0 -1px #e8eefc;animation:float 3s ease-in-out infinite}
+.art-scope::before{width:120px;height:120px;left:50%;top:50%;margin:-60px;background:conic-gradient(from 30deg,#f4c860 0 60deg,#e7b84a 60deg 120deg,#f4c860 120deg 180deg,#e7b84a 180deg 240deg,#f4c860 240deg 300deg,#e7b84a 300deg 360deg);clip-path:polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0 50%);animation:float 8s ease-in-out infinite}
+.art-scope::after{inset:0;background:radial-gradient(1.5px 1.5px at 15% 25%,#fff,transparent),radial-gradient(1.5px 1.5px at 85% 30%,#fff,transparent),radial-gradient(1px 1px at 75% 80%,#fff,transparent),radial-gradient(1px 1px at 22% 78%,#fff,transparent)}
+.art-sail::before{width:90px;height:90px;left:50%;top:50%;margin:-45px;background:linear-gradient(135deg,rgba(220,235,255,.9),rgba(98,212,255,.25));transform:rotate(45deg);box-shadow:0 0 40px rgba(98,212,255,.4);animation:float 6s ease-in-out infinite}
+.art-sail::after{width:140%;height:2px;left:-40%;top:50%;background:linear-gradient(90deg,transparent,rgba(255,80,80,.8),transparent)}
+
+/* toolbar / filters */
+.toolbar{display:flex;flex-wrap:wrap;gap:.8rem 1.2rem;align-items:center;justify-content:space-between;margin-bottom:.8rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{padding:.4rem .95rem;border-radius:999px;border:1px solid var(--line-strong);background:rgba(255,255,255,.03);color:var(--muted);font-size:.88rem;font-weight:600;transition:.2s}
+.chip:hover{color:var(--text);border-color:var(--accent)}
+.chip.is-active,.chip[aria-pressed=true]{background:rgba(98,212,255,.16);color:var(--text);border-color:var(--accent)}
+input,textarea,select{width:100%;font:inherit;color:var(--text);background:rgba(10,16,36,.85);border:1px solid var(--line-strong);border-radius:12px;padding:.7rem .9rem}
+input::placeholder{color:var(--faint)}
+input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.search{flex:0 1 320px}
+.result-count{color:var(--faint);font-size:.86rem;margin-bottom:1rem;min-height:1.4em}
+.empty{padding:2rem;text-align:center;border:1px dashed var(--line-strong);border-radius:var(--radius);color:var(--muted)}
+.callout{margin-top:1.8rem;padding:1.1rem 1.3rem;border-left:4px solid var(--accent);border-radius:10px;background:rgba(17,30,57,.75)}
+.callout h3{color:var(--accent);margin-bottom:.3rem}
+.callout p{color:var(--muted);margin-top:.4rem}
+
+/* orrery */
+.orrery-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:1.5rem;align-items:start}
+.orrery-stage{border:1px solid var(--line);border-radius:var(--radius);background:radial-gradient(circle at 50% 50%,rgba(20,30,70,.6),rgba(5,7,15,.4));padding:.5rem}
+.orrery{width:100%;height:auto;display:block}
+.orbit-ring{fill:none;stroke:rgba(150,180,255,.17);stroke-width:1}
+.sun{fill:#fff3c4}
+.mover{transform-origin:300px 300px;animation:spin linear infinite}
+.is-paused .mover{animation-play-state:paused}
+.planet{stroke:transparent;stroke-width:14px;cursor:pointer;transition:stroke .2s}
+.planet:hover,.planet:focus-visible{stroke:rgba(98,212,255,.45)}
+.planet.is-selected{stroke:rgba(98,212,255,.85);stroke-width:3px}
+.p-mercury{fill:#b9b3aa}.p-venus{fill:#e8c07a}.p-earth{fill:#4fa3ff}.p-mars{fill:#e2674a}
+.p-jupiter{fill:#d9a77a}.p-saturn{fill:#e8d29a}.p-uranus{fill:#8fe0e6}.p-neptune{fill:#5b7dff}
+.saturn-ring{fill:none;stroke:rgba(232,210,154,.55);stroke-width:2.2;pointer-events:none}
+.m-mercury{animation-duration:8s;animation-delay:-2s}.m-venus{animation-duration:14s;animation-delay:-9s}
+.m-earth{animation-duration:20s;animation-delay:-5s}.m-mars{animation-duration:30s;animation-delay:-18s}
+.m-jupiter{animation-duration:62s;animation-delay:-30s}.m-saturn{animation-duration:92s;animation-delay:-70s}
+.m-uranus{animation-duration:132s;animation-delay:-40s}.m-neptune{animation-duration:170s;animation-delay:-100s}
+.orrery-panel{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:1.3rem}
+.planet-list{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.orrery-panel h3{font-family:var(--font-display);font-size:1.8rem;margin:.5rem 0}
+.facts{display:grid;gap:.5rem;margin:.9rem 0}
+.facts div{display:flex;justify-content:space-between;gap:1rem;border-bottom:1px dashed var(--line);padding-bottom:.4rem}
+.facts dt{color:var(--faint);font-size:.88rem}.facts dd{font-weight:600;text-align:right}
+.orrery-panel p{color:var(--muted)}
+.orrery-panel .btn{margin-top:1rem}
+@media(max-width:900px){.orrery-layout{grid-template-columns:1fr}}
+
+/* star lifecycle & temperature */
+.lifecycle{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:1.3rem}
+.stages{list-style:none;display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem;margin:1.2rem 0;position:relative}
+.stages::before{content:"";position:absolute;left:4%;right:4%;top:20px;height:2px;background:linear-gradient(90deg,#7aa8ff,#ffd37a,#ff7a5c);opacity:.5}
+.stage{position:relative;display:flex;flex-direction:column;align-items:center;gap:.5rem;background:none;border:0;padding:0;color:var(--muted);font-size:.8rem;text-align:center}
+.stage i{width:42px;height:42px;border-radius:50%;background:var(--c,#7aa8ff);box-shadow:0 0 0 4px var(--bg),0 0 18px var(--c,#7aa8ff);opacity:.6;transition:.25s}
+.stage[aria-selected=true]{color:var(--text);font-weight:700}
+.stage[aria-selected=true] i{opacity:1;transform:scale(1.18)}
+.stage-detail{display:grid;grid-template-columns:120px 1fr;gap:1.4rem;align-items:center;padding:1.1rem;border-radius:12px;background:rgba(5,9,22,.6);border:1px solid var(--line)}
+.orb{width:100px;height:100px;border-radius:50%;margin:auto;background:radial-gradient(circle at 32% 30%,#fff,var(--c,#7aa8ff) 40%,rgba(0,0,0,.6));box-shadow:0 0 44px var(--c,#7aa8ff);transition:.4s}
+.stage-detail h3{font-family:var(--font-display);font-size:1.6rem;margin:.3rem 0}
+.stage-detail p{color:var(--muted)}
+@media(max-width:700px){.stages{grid-template-columns:repeat(3,1fr);row-gap:1rem}.stages::before{display:none}.stage-detail{grid-template-columns:1fr}}
+.startemp{display:grid;grid-template-columns:240px 1fr;gap:1.5rem;align-items:center;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:1.4rem}
+.star-view{display:grid;place-items:center;height:200px}
+.star-orb{width:130px;height:130px;border-radius:50%;background:radial-gradient(circle at 35% 32%,#fff,var(--star,#ffe9b8) 45%,var(--star,#ffe9b8));box-shadow:0 0 70px 18px var(--star,#ffe9b8);transition:background .2s,box-shadow .2s}
+.startemp label{display:block;font-weight:600;margin-bottom:.5rem}
+input[type=range]{padding:0;height:28px;background:transparent;border:0;accent-color:var(--accent);cursor:pointer}
+.spectrum{height:10px;border-radius:999px;margin:.2rem 0 .9rem;background:linear-gradient(90deg,#ff7b4a,#ffa550 22%,#ffd98a 40%,#fff3df 55%,#d8e3ff 72%,#9bbcff 88%,#7a9dff)}
+.classes{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.9rem}
+.classes span{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--line-strong);font-weight:700;color:var(--faint)}
+.classes span.is-on{color:#04101f;background:var(--accent);border-color:var(--accent)}
+.readout{color:var(--muted)}
+.readout b{color:var(--text)}
+@media(max-width:760px){.startemp{grid-template-columns:1fr}}
+
+/* light-travel bars */
+.lt{list-style:none;display:grid;gap:.7rem}
+.lt-row{display:grid;grid-template-columns:160px 1fr 150px;gap:.9rem;align-items:center}
+.lt-name{font-weight:600}.lt-time{color:var(--warm);font-size:.9rem;text-align:right}
+.lt-bar{height:12px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}
+.lt-bar i{display:block;height:100%;width:var(--w,8%);border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+@media(max-width:640px){.lt-row{grid-template-columns:1fr 1fr}.lt-bar{grid-column:1/-1;order:3}}
+
+/* timeline */
+.timeline{position:relative;max-width:860px;margin:0 auto;padding-left:2.2rem;--p:0%}
+.timeline::before,.timeline::after{content:"";position:absolute;left:8px;top:6px;width:3px;border-radius:3px}
+.timeline::before{bottom:6px;background:rgba(140,170,255,.18)}
+.timeline::after{height:var(--p);background:linear-gradient(var(--accent),var(--accent-2))}
+.event{position:relative;margin:0 0 1.2rem;padding:1.15rem 1.4rem;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.event::before{content:"";position:absolute;left:-2.2rem;top:1.5rem;width:19px;height:19px;border-radius:50%;background:var(--bg);border:3px solid var(--accent);box-shadow:0 0 14px rgba(98,212,255,.6)}
+.event h3{font-family:var(--font-display);font-size:1.35rem;margin:.4rem 0}
+.event p{color:var(--muted)}.event a{display:inline-block;margin-top:.5rem;font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:.6rem;margin:0 0 1.5rem}
+
+/* chat */
+.chatbox{max-width:860px;margin:0 auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:1.2rem}
+.chatlog{height:360px;overflow:auto;padding:.9rem;border-radius:12px;background:rgba(4,8,20,.75);border:1px solid var(--line)}
+.message{max-width:88%;margin:.5rem 0;padding:.65rem .9rem;border-radius:14px;background:var(--surface-solid);color:#e8f1ff;border:1px solid var(--line)}
+.message.user{margin-left:auto;background:#15456a;border-color:rgba(98,212,255,.35)}
+.message a{display:inline-block;margin-top:.35rem;font-weight:600}
+.typing{display:inline-flex;gap:4px}.typing i{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:blink 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.chat-form{display:flex;gap:.6rem;margin-top:.9rem}
+.suggest{margin-top:.9rem}
+
+/* account */
+.account-wrap{max-width:560px;margin:0 auto}
+.panel{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:1.6rem;margin-bottom:1.2rem}
+.panel h2,.panel h3{margin-bottom:.4rem}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;padding:.3rem;border-radius:999px;background:rgba(255,255,255,.05);margin:1rem 0 1.2rem}
+.tab{padding:.55rem;border:0;border-radius:999px;background:transparent;color:var(--muted);font-weight:700}
+.tab[aria-selected=true]{background:rgba(98,212,255,.2);color:var(--text)}
+.field{margin-bottom:1rem}
+.field label{display:block;font-weight:600;font-size:.92rem;margin-bottom:.35rem}
+.pw-row{position:relative}
+.pw-row input{padding-right:5rem}
+.pw-toggle{position:absolute;right:.4rem;top:50%;transform:translateY(-50%);padding:.3rem .7rem;border-radius:8px;border:1px solid var(--line-strong);background:transparent;font-size:.8rem;color:var(--muted)}
+.meter{height:6px;border-radius:99px;background:rgba(255,255,255,.08);margin-top:.5rem;overflow:hidden}
+.meter i{display:block;height:100%;width:var(--s,0%);background:var(--mc,var(--danger));transition:width .25s,background .25s}
+.hint{font-size:.84rem;color:var(--faint);margin-top:.3rem}
+.form-msg{margin-top:.9rem;min-height:1.4em;font-size:.92rem}
+.form-msg.error{color:var(--danger)}.form-msg.ok{color:var(--good)}
+.saved{list-style:none;display:grid;gap:.5rem;margin-top:.8rem}
+.saved li{display:flex;justify-content:space-between;gap:1rem;align-items:center;padding:.6rem .9rem;border:1px solid var(--line);border-radius:10px;background:rgba(5,9,22,.5)}
+.danger-zone{border-color:rgba(255,122,138,.35)}
+.profile-line{color:var(--muted)}
+
+/* toast */
+.toasts{position:fixed;left:50%;bottom:1.4rem;transform:translateX(-50%);z-index:200;display:grid;gap:.5rem;width:min(92vw,420px)}
+.toast{padding:.8rem 1rem;border-radius:12px;background:#121c3a;border:1px solid var(--line-strong);box-shadow:0 10px 30px rgba(0,0,0,.5);animation:rise .25s}
+.toast a{margin-left:.5rem;font-weight:700}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}}
+
+/* footer */
+.site-footer{margin-top:3rem;padding:2rem 0 1.5rem;border-top:1px solid var(--line);background:rgba(3,5,12,.8)}
+.footer-grid{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1.5rem;margin-bottom:1rem}
+.brand-foot{font-family:var(--font-display);letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.footer-grid nav{display:flex;flex-wrap:wrap;gap:1.1rem}
+.legal{border-top:1px solid var(--line);padding-top:1rem}
+
+/* reveal on scroll */
+.reveal.will{opacity:0;transform:translateY(22px)}
+.reveal{transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .reveal.will{opacity:1;transform:none}
+}
+
+.view{display:none}.view.on{display:block}
+.site-header{top:env(safe-area-inset-top,0px)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:rgba(5,7,15,.96)}
+body{overflow-x:hidden;padding-block:0}
+.site-nav li a[aria-current=page]{color:var(--text)}
+.timeline{--p:0%}
+
+</style>
+<canvas id="starfield" aria-hidden="true"></canvas>
+<header class="site-header"><div class="container nav">
+<a class="brand" href="#home" aria-label="Cosmic Frontier home"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><ellipse class="bm-ring" cx="16" cy="16" rx="14" ry="5.5" transform="rotate(-25 16 16)"/><circle class="bm-core" cx="16" cy="16" r="6"/></svg><span>Cosmic Frontier</span></a>
+<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle menu"><span></span></button>
+<nav id="site-nav" class="site-nav" aria-label="Primary"><ul><li><a href="#home">Home</a></li><li><a href="#discover">Discover</a></li><li><a href="#stars">Stars</a></li><li><a href="#missions">Missions</a></li><li><a href="#news">Research News</a></li><li><a href="#future">Future</a></li><li><a href="#assistant">Assistant</a></li></ul><a class="btn btn-ghost btn-sm" href="#saved" id="saved-link">Saved (0)</a></nav>
+</div></header>
+<main id="main"><div class="view" data-view="home"><section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <p class="eyebrow">A window into the cosmos</p>
+      <h1>Explore the <span class="grad">Universe</span></h1>
+      <p class="lead">Discover stars, distant worlds, galaxies, black holes, and the missions expanding humanity's view of space.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#discover">Begin exploring</a>
+        <a class="btn btn-ghost" href="#assistant">Ask the Cosmic Assistant</a>
+      </div>
+      <p class="fact"><span class="fact-label">Cosmic fact</span><span data-fact-text>Sunlight takes about 8 minutes and 20 seconds to reach Earth.</span></p>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hv-orbit hv-orbit-2"></div><div class="hv-orbit"></div><div class="hv-planet"></div>
+    </div>
+  </div>
+</section>
+
+<section class="container section">
+  <div class="stats">
+    <div class="stat reveal"><b data-count="8">8</b><span>planets orbit our Sun</span></div>
+    <div class="stat reveal"><b data-count="299792">299,792</b><span>km/s — the speed of light</span></div>
+    <div class="stat reveal"><b data-count="4.6" data-dec="1">4.6</b><span>billion years: the age of the Sun</span></div>
+    <div class="stat reveal"><b data-count="9.46" data-dec="2">9.46</b><span>trillion km in one light-year</span></div>
+  </div>
+</section>
+
+<section class="container section" id="orrery">
+  <div class="section-head reveal">
+    <p class="eyebrow">Interactive</p>
+    <h2>Tour the Solar System</h2>
+    <p>Select a planet to learn more. Sizes and orbital speeds are simplified for display and are not to scale.</p>
+  </div>
+  <div class="orrery-layout reveal">
+    <div class="orrery-stage">
+      <svg class="orrery" id="orrery-svg" viewBox="0 0 600 600" role="group" aria-label="Animated diagram of the eight planets orbiting the Sun">
+        <defs>
+          <radialGradient id="sunGlow"><stop offset="0" stop-color="#fff6d6"/><stop offset=".4" stop-color="#ffc861" stop-opacity=".9"/><stop offset="1" stop-color="#ff8a3d" stop-opacity="0"/></radialGradient>
+        </defs>
+        <circle cx="300" cy="300" r="48" fill="url(#sunGlow)"/>
+        <circle class="sun" cx="300" cy="300" r="15"/>
+        <circle class="orbit-ring" cx="300" cy="300" r="55"/><circle class="orbit-ring" cx="300" cy="300" r="80"/>
+        <circle class="orbit-ring" cx="300" cy="300" r="105"/><circle class="orbit-ring" cx="300" cy="300" r="130"/>
+        <circle class="orbit-ring" cx="300" cy="300" r="170"/><circle class="orbit-ring" cx="300" cy="300" r="210"/>
+        <circle class="orbit-ring" cx="300" cy="300" r="245"/><circle class="orbit-ring" cx="300" cy="300" r="280"/>
+        <g class="mover m-mercury"><circle class="planet p-mercury" data-planet="mercury" cx="355" cy="300" r="3.2" tabindex="0" role="button" aria-label="Mercury"/></g>
+        <g class="mover m-venus"><circle class="planet p-venus" data-planet="venus" cx="380" cy="300" r="5" tabindex="0" role="button" aria-label="Venus"/></g>
+        <g class="mover m-earth"><circle class="planet p-earth" data-planet="earth" cx="405" cy="300" r="5.5" tabindex="0" role="button" aria-label="Earth"/></g>
+        <g class="mover m-mars"><circle class="planet p-mars" data-planet="mars" cx="430" cy="300" r="4" tabindex="0" role="button" aria-label="Mars"/></g>
+        <g class="mover m-jupiter"><circle class="planet p-jupiter" data-planet="jupiter" cx="470" cy="300" r="12" tabindex="0" role="button" aria-label="Jupiter"/></g>
+        <g class="mover m-saturn"><circle class="saturn-ring" cx="510" cy="300" r="17"/><circle class="planet p-saturn" data-planet="saturn" cx="510" cy="300" r="9.5" tabindex="0" role="button" aria-label="Saturn"/></g>
+        <g class="mover m-uranus"><circle class="planet p-uranus" data-planet="uranus" cx="545" cy="300" r="7.5" tabindex="0" role="button" aria-label="Uranus"/></g>
+        <g class="mover m-neptune"><circle class="planet p-neptune" data-planet="neptune" cx="580" cy="300" r="7.5" tabindex="0" role="button" aria-label="Neptune"/></g>
+      </svg>
+    </div>
+    <aside class="orrery-panel" aria-live="polite">
+      <div class="planet-list" role="group" aria-label="Choose a planet"></div>
+      <span class="badge" data-p-type>Rocky planet</span>
+      <h3 data-p-name>Earth</h3>
+      <dl class="facts">
+        <div><dt>Diameter</dt><dd data-p-diam>12,742 km</dd></div>
+        <div><dt>Distance from Sun</dt><dd data-p-dist>1.00 AU</dd></div>
+        <div><dt>Year length</dt><dd data-p-year>365.25 days</dd></div>
+      </dl>
+      <p data-p-fact>The only world known to host life, with liquid water covering about 71% of its surface.</p>
+      <button class="btn btn-ghost btn-sm" id="orrery-toggle" type="button" aria-pressed="false">Pause orbits</button>
+    </aside>
+  </div>
+</section>
+
+<section class="container section">
+  <div class="section-head reveal">
+    <h2>Welcome to Cosmic Frontier</h2>
+    <p>An astronomy learning hub. Explore the science behind the universe, follow real space missions, and read research updates from space agencies and observatories.</p>
+  </div>
+  <div class="grid">
+    <article class="card reveal"><div class="art art-galaxy"></div><div class="card-body"><span class="badge">Explore</span><h3>Discover Space</h3><p>Build your understanding of planets, galaxies, nebulae, and extreme objects.</p><a class="more" href="#discover">Explore topics →</a></div></article>
+    <article class="card reveal"><div class="art art-nebula"></div><div class="card-body"><span class="badge badge-warm">Stellar science</span><h3>Inside the Stars</h3><p>Learn how stars form, shine, evolve, and end their lives.</p><a class="more" href="#stars">Study stars →</a></div></article>
+    <article class="card reveal"><div class="art art-moon"></div><div class="card-body"><span class="badge badge-violet">Mission control</span><h3>Space Missions</h3><p>Track exploration projects and their scientific goals.</p><a class="more" href="#missions">View missions →</a></div></article>
+    <article class="card reveal"><div class="art art-scope"></div><div class="card-body"><span class="badge badge-green">New findings</span><h3>Research &amp; Discovery</h3><p>Read selected recent findings with links to original sources.</p><a class="more" href="#news">Read research →</a></div></article>
+  </div>
+</section>
+
+<section class="container section">
+  <div class="callout reveal">
+    <h3>Curiosity has no boundary</h3>
+    <p>From the nearest star to galaxies billions of light-years away, every observation adds another piece to the cosmic picture.</p>
+    <p><a class="btn btn-primary" href="#assistant">Ask the Cosmic Assistant</a></p>
+  </div>
+</section>
+</div><div class="view" data-view="discover"><section class="hero hero-simple">
+  <div class="container">
+    <p class="eyebrow">Cosmic catalogue</p>
+    <h1>Discover <span class="grad">Space</span></h1>
+    <p class="lead">Explore the major structures and phenomena that shape the observable universe.</p>
+  </div>
+</section>
+
+<section class="container section">
+  <div class="section-head"><h2>Explore the universe</h2></div>
+  <div class="toolbar" data-toolbar="#discover-grid">
+    <div class="chips" role="group" aria-label="Filter by category">
+      <button class="chip is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+      <button class="chip" type="button" data-filter="worlds" aria-pressed="false">Worlds</button>
+      <button class="chip" type="button" data-filter="structures" aria-pressed="false">Structures</button>
+      <button class="chip" type="button" data-filter="extreme" aria-pressed="false">Extreme objects</button>
+    </div>
+    <label class="search"><span class="sr-only">Search topics</span><input type="search" placeholder="Search: stars, galaxies, pulsars…" data-search-input autocomplete="off"></label>
+  </div>
+  <p class="result-count" data-count-out aria-live="polite"></p>
+  <div class="grid" id="discover-grid">
+    <article class="card" data-item data-cat="worlds" data-search="planets solar system terrestrial gas giant" data-id="topic-planets" data-title="Planets" data-page="/discover">
+      <div class="art art-planet"></div>
+      <div class="card-body"><h3>Planets</h3><p>Worlds orbiting stars. Our solar system has eight recognized planets, from rocky Mercury to ice giant Neptune.</p><p class="keyfact"><b>Key fact:</b> Jupiter's mass is more than twice that of all the other planets combined.</p></div>
+    </article>
+    <article class="card" data-item data-cat="structures" data-search="galaxies milky way stars gas dust dark matter" data-id="topic-galaxies" data-title="Galaxies" data-page="/discover">
+      <div class="art art-galaxy"></div>
+      <div class="card-body"><h3>Galaxies</h3><p>Vast gravitational systems containing stars, gas, dust, stellar remnants, and dark matter.</p><p class="keyfact"><b>Key fact:</b> The Milky Way is a barred spiral galaxy; our Sun lies in one of its spiral arms.</p></div>
+    </article>
+    <article class="card" data-item data-cat="extreme" data-search="black holes event horizon gravity" data-id="topic-black-holes" data-title="Black Holes" data-page="/discover">
+      <div class="art art-bh"></div>
+      <div class="card-body"><h3>Black Holes</h3><p>Regions whose event horizons mark the boundary beyond which escape is impossible.</p><p class="keyfact"><b>Key fact:</b> The first image of a black hole's shadow (M87*) was released in 2019 by the Event Horizon Telescope.</p></div>
+    </article>
+    <article class="card" data-item data-cat="structures" data-search="nebula star formation gas dust" data-id="topic-nebulae" data-title="Nebulae" data-page="/discover">
+      <div class="art art-nebula"></div>
+      <div class="card-body"><h3>Nebulae</h3><p>Interstellar clouds of gas and dust. Some are stellar nurseries; others are remnants of dying stars.</p><p class="keyfact"><b>Key fact:</b> The Orion Nebula is visible to the naked eye as the fuzzy middle "star" of Orion's sword.</p></div>
+    </article>
+    <article class="card" data-item data-cat="worlds" data-search="exoplanets worlds beyond solar system transit" data-id="topic-exoplanets" data-title="Exoplanets" data-page="/discover">
+      <div class="art art-exo"></div>
+      <div class="card-body"><h3>Exoplanets</h3><p>Planets beyond our solar system, detected using methods such as transits and radial velocity.</p><p class="keyfact"><b>Key fact:</b> The first exoplanet found around a Sun-like star, 51 Pegasi b, was announced in 1995.</p></div>
+    </article>
+    <article class="card" data-item data-cat="extreme" data-search="neutron stars pulsars supernova" data-id="topic-neutron-stars" data-title="Neutron Stars" data-page="/discover">
+      <div class="art art-pulsar"></div>
+      <div class="card-body"><h3>Neutron Stars</h3><p>Ultra-dense stellar remnants. Some rotate rapidly and emit beams observed as pulsars.</p><p class="keyfact"><b>Key fact:</b> A teaspoon of neutron-star material would weigh billions of tonnes.</p></div>
+    </article>
+  </div>
+  <p class="empty" data-empty hidden>No topics match your search. Try a different word or choose "All".</p>
+</section>
+
+<section class="container section">
+  <div class="section-head reveal">
+    <p class="eyebrow">Perspective</p>
+    <h2>How far is far?</h2>
+    <p>How long light takes to reach different places, on a logarithmic scale. Each step is far more than the last.</p>
+  </div>
+  <ul class="lt reveal" id="lt">
+    <li class="lt-row" data-seconds="1.28"><span class="lt-name">The Moon</span><span class="lt-bar"><i></i></span><span class="lt-time">about 1.3 seconds</span></li>
+    <li class="lt-row" data-seconds="499"><span class="lt-name">The Sun</span><span class="lt-bar"><i></i></span><span class="lt-time">about 8.3 minutes</span></li>
+    <li class="lt-row" data-seconds="15000"><span class="lt-name">Neptune</span><span class="lt-bar"><i></i></span><span class="lt-time">about 4 hours</span></li>
+    <li class="lt-row" data-seconds="133800000"><span class="lt-name">Proxima Centauri</span><span class="lt-bar"><i></i></span><span class="lt-time">4.24 years</span></li>
+    <li class="lt-row" data-seconds="820000000000"><span class="lt-name">Galactic centre</span><span class="lt-bar"><i></i></span><span class="lt-time">about 26,000 years</span></li>
+    <li class="lt-row" data-seconds="79000000000000"><span class="lt-name">Andromeda galaxy</span><span class="lt-bar"><i></i></span><span class="lt-time">about 2.5 million years</span></li>
+  </ul>
+</section>
+</div><div class="view" data-view="stars"><section class="hero hero-simple">
+  <div class="container">
+    <p class="eyebrow">Stellar evolution</p>
+    <h1>The Life of a <span class="grad">Star</span></h1>
+    <p class="lead">Every star is a long-running balance between gravity and the energy released by nuclear fusion.</p>
+  </div>
+</section>
+
+<section class="container section">
+  <div class="section-head">
+    <h2>How stars work</h2>
+    <p>Stars form when dense regions of molecular clouds collapse under gravity. As the core heats and compresses, hydrogen fusion can begin. The star then spends much of its life on the main sequence.</p>
+  </div>
+  <div class="lifecycle reveal">
+    <div class="chips" role="group" aria-label="Choose a star type">
+      <button class="chip is-active" type="button" data-path="sun" aria-pressed="true">Sun-like star</button>
+      <button class="chip" type="button" data-path="massive" aria-pressed="false">Massive star</button>
+    </div>
+    <ol class="stages" id="stages" role="tablist" aria-label="Life stages"></ol>
+    <article class="stage-detail" aria-live="polite">
+      <div class="orb" id="stage-orb"></div>
+      <div><span class="badge" id="stage-badge">Stage 3 of 6</span><h3 id="stage-title">Main sequence</h3><p id="stage-text">Hydrogen fusion in the core supplies energy that counteracts gravitational collapse.</p><p class="small" id="stage-time"></p></div>
+    </article>
+  </div>
+</section>
+
+<section class="container section">
+  <div class="section-head"><h2>Stages at a glance</h2></div>
+  <div class="toolbar" data-toolbar="#stage-grid">
+    <div class="chips"><button class="chip is-active" type="button" data-filter="all" aria-pressed="true">All</button></div>
+    <label class="search"><span class="sr-only">Search stages</span><input type="search" placeholder="Search stages…" data-search-input autocomplete="off"></label>
+  </div>
+  <p class="result-count" data-count-out aria-live="polite"></p>
+  <div class="grid" id="stage-grid">
+    <article class="card" data-item data-search="stellar nebula birth molecular cloud"><div class="card-body"><span class="badge">Stage 1</span><h3>Nebula</h3><p>Cold gas and dust gather into dense regions that may collapse to form stars.</p></div></article>
+    <article class="card" data-item data-search="protostar gravity fusion"><div class="card-body"><span class="badge">Stage 2</span><h3>Protostar</h3><p>A forming star heats as gravity compresses its material. Fusion has not yet stabilized.</p></div></article>
+    <article class="card" data-item data-search="main sequence hydrogen fusion star"><div class="card-body"><span class="badge">Stage 3</span><h3>Main Sequence</h3><p>Hydrogen fusion in the core supplies energy that counteracts gravitational collapse.</p></div></article>
+    <article class="card" data-item data-search="red giant supergiant star evolution"><div class="card-body"><span class="badge">Stage 4</span><h3>Giant phase</h3><p>After core hydrogen is depleted, a star's structure changes. The details depend on its mass.</p></div></article>
+    <article class="card" data-item data-search="white dwarf planetary nebula low mass star"><div class="card-body"><span class="badge badge-warm">Possible ending</span><h3>White Dwarf</h3><p>Many low- and intermediate-mass stars leave behind a hot, dense stellar core.</p></div></article>
+    <article class="card" data-item data-search="supernova neutron star black hole massive star"><div class="card-body"><span class="badge badge-warm">Possible ending</span><h3>Supernova remnant</h3><p>Massive stars may explode as supernovae, leaving neutron stars or black holes.</p></div></article>
+  </div>
+  <p class="empty" data-empty hidden>No stages match your search.</p>
+</section>
+
+<section class="container section">
+  <div class="section-head reveal">
+    <p class="eyebrow">Interactive</p>
+    <h2>Colour, temperature and class</h2>
+    <p>Star colour is related to surface temperature: blue stars are generally hotter than red stars. Drag the slider to see how colour and spectral class change.</p>
+  </div>
+  <div class="startemp reveal">
+    <div class="star-view"><div class="star-orb" id="star-orb"></div></div>
+    <div>
+      <label for="temp">Surface temperature: <output id="temp-out" for="temp">5,800 K</output></label>
+      <input type="range" id="temp" min="0" max="100" step="0.5" value="31">
+      <div class="spectrum" aria-hidden="true"></div>
+      <div class="classes" id="classes" aria-label="Spectral classes from coolest (M) to hottest (O)"></div>
+      <p class="readout"><b id="sp-class">Class G</b> · example: <span id="sp-example">the Sun</span></p>
+      <p><button class="btn btn-ghost btn-sm" type="button" id="temp-sun">Set to the Sun (about 5,772 K)</button></p>
+    </div>
+  </div>
+  <div class="callout reveal">
+    <h3>Fast facts about stars</h3>
+    <p>• Star colour is related to surface temperature: blue stars are generally hotter than red stars.<br>• The Sun is about 4.6 billion years old.<br>• A star's mass is a major factor controlling its lifetime and final fate.<br>• The elements in planets and living organisms were forged through earlier generations of stars and stellar explosions.</p>
+  </div>
+</section>
+</div><div class="view" data-view="missions"><section class="hero hero-simple">
+  <div class="container">
+    <p class="eyebrow">Mission control</p>
+    <h1>Humanity <span class="grad">Outward</span></h1>
+    <p class="lead">Robotic explorers and crewed spacecraft turn distant questions into measurable science.</p>
+  </div>
+</section>
+
+<section class="container section">
+  <div class="section-head"><h2>Selected missions</h2></div>
+  <div class="toolbar" data-toolbar="#mission-grid">
+    <div class="chips" role="group" aria-label="Filter missions">
+      <button class="chip is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+      <button class="chip" type="button" data-filter="crewed" aria-pressed="false">Crewed</button>
+      <button class="chip" type="button" data-filter="robotic" aria-pressed="false">Robotic</button>
+      <button class="chip" type="button" data-filter="telescope" aria-pressed="false">Telescopes</button>
+      <button class="chip" type="button" data-filter="concept" aria-pressed="false">Concepts</button>
+    </div>
+    <label class="search"><span class="sr-only">Search missions</span><input type="search" placeholder="Search missions…" data-search-input autocomplete="off"></label>
+  </div>
+  <p class="result-count" data-count-out aria-live="polite"></p>
+  <div class="grid" id="mission-grid">
+    <article class="card" data-item data-cat="crewed" data-search="Artemis III 2027 Moon lander test Earth orbit" data-id="mission-artemis-3" data-title="NASA Artemis III" data-page="/missions">
+      <div class="art art-moon"></div>
+      <div class="card-body"><span class="badge badge-warm">Target: 2027</span><h3>NASA Artemis III</h3><p>NASA currently describes Artemis III as a crewed low-Earth-orbit demonstration to test rendezvous and docking with commercial lunar lander systems before a planned 2028 landing mission.</p><a class="more" href="https://www.nasa.gov/artemis-iii-news-and-updates/" target="_blank" rel="noopener noreferrer">NASA mission updates ↗</a></div>
+    </article>
+    <article class="card" data-item data-cat="crewed" data-search="Artemis IV 2028 Moon landing lunar south pole" data-id="mission-artemis-4" data-title="NASA Artemis IV" data-page="/missions">
+      <div class="art art-moon"></div>
+      <div class="card-body"><span class="badge badge-warm">Target: early 2028</span><h3>NASA Artemis IV</h3><p>NASA is targeting Artemis IV for the first crewed lunar landing in this updated sequence, with the aim of exploring near the lunar South Pole.</p><a class="more" href="https://www.nasa.gov/artemis-ii-news-and-updates/" target="_blank" rel="noopener noreferrer">NASA Artemis program ↗</a></div>
+    </article>
+    <article class="card" data-item data-cat="robotic" data-search="Dragonfly Titan rotorcraft launch 2028" data-id="mission-dragonfly" data-title="Dragonfly" data-page="/missions">
+      <div class="art art-titan"></div>
+      <div class="card-body"><span class="badge badge-warm">Target: 2028 launch</span><h3>Dragonfly</h3><p>A rotorcraft lander designed to fly between sites on Saturn's moon Titan and study its chemistry and prebiotic environment.</p><a class="more" href="https://science.nasa.gov/mission/dragonfly/" target="_blank" rel="noopener noreferrer">NASA Dragonfly ↗</a></div>
+    </article>
+    <article class="card" data-item data-cat="telescope robotic" data-search="NEO Surveyor asteroid comet planetary defense 2027" data-id="mission-neo-surveyor" data-title="NEO Surveyor" data-page="/missions">
+      <div class="art art-scope"></div>
+      <div class="card-body"><span class="badge badge-warm">Target: 2027</span><h3>NEO Surveyor</h3><p>An infrared space telescope designed to find and characterize near-Earth asteroids and comets that could pose hazards.</p><a class="more" href="https://science.nasa.gov/mission/neo-surveyor/" target="_blank" rel="noopener noreferrer">NASA NEO Surveyor ↗</a></div>
+    </article>
+    <article class="card" data-item data-cat="telescope" data-search="Nancy Grace Roman Space Telescope dark energy exoplanets" data-id="mission-roman" data-title="Roman Space Telescope" data-page="/missions">
+      <div class="art art-scope"></div>
+      <div class="card-body"><span class="badge badge-green">Launched: 2026</span><h3>Roman Space Telescope</h3><p>NASA's wide-field observatory is designed to investigate dark energy, dark matter, and exoplanets. Its mission operations and science releases will develop over time.</p><a class="more" href="https://science.nasa.gov/mission/roman-space-telescope/" target="_blank" rel="noopener noreferrer">NASA Roman ↗</a></div>
+    </article>
+    <article class="card" data-item data-cat="concept" data-search="Breakthrough Starshot laser sail Alpha Centauri concept" data-id="mission-starshot" data-title="Breakthrough Starshot" data-page="/missions">
+      <div class="art art-sail"></div>
+      <div class="card-body"><span class="badge badge-violet">Research concept</span><h3>Breakthrough Starshot</h3><p>A proposed research initiative exploring whether tiny light-sail probes could one day travel toward the Alpha Centauri system. It is not an operational mission.</p><a class="more" href="https://breakthroughinitiatives.org/initiative/3" target="_blank" rel="noopener noreferrer">Project overview ↗</a></div>
+    </article>
+  </div>
+  <p class="empty" data-empty hidden>No missions match your search.</p>
+  <div class="callout reveal"><b>Schedule note:</b> Dates are planning targets, not guarantees. Mission schedules can change after engineering reviews, funding decisions, or technical delays.</div>
+</section>
+</div><div class="view" data-view="news"><section class="hero hero-simple">
+  <div class="container">
+    <p class="eyebrow">Research desk · 2026</p>
+    <h1>New Windows on the <span class="grad">Cosmos</span></h1>
+    <p class="lead">Selected recent astronomy and space-science updates, linked to the original research organisations.</p>
+  </div>
+</section>
+
+<section class="container section">
+  <div class="section-head">
+    <h2>Recent discoveries and research</h2>
+    <p class="small">Checked against official NASA, ESA, ESO, and Space Telescope Science Institute releases available on 24 November 2026.</p>
+  </div>
+  <div class="toolbar" data-toolbar="#news-list">
+    <div class="chips" role="group" aria-label="Filter by source">
+      <button class="chip is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+      <button class="chip" type="button" data-filter="nasa" aria-pressed="false">NASA</button>
+      <button class="chip" type="button" data-filter="webb" aria-pressed="false">Webb</button>
+      <button class="chip" type="button" data-filter="eso" aria-pressed="false">ESO</button>
+    </div>
+    <label class="search"><span class="sr-only">Search news</span><input type="search" placeholder="Search research news…" data-search-input autocomplete="off"></label>
+  </div>
+  <p class="result-count" data-count-out aria-live="polite"></p>
+  <div class="timeline" id="news-list">
+    <article class="event" data-item data-cat="nasa" data-search="November 12 2026 Hubble gravitational lenses Nancy Roman" data-id="news-hubble-lenses" data-title="Hubble gallery showcases gravitational lenses" data-page="/news"><span class="badge">12 November 2026 · NASA</span><h3>Hubble gallery showcases gravitational lenses</h3><p>A NASA feature presents a gallery of gravitational lenses observed by Hubble. These warped and magnified views help astronomers study distant objects and prepare follow-up science with the Nancy Grace Roman Space Telescope.</p><a href="https://earthsciences.gsfc.nasa.gov/astrophysics/exoplanets/pressreleases/" target="_blank" rel="noopener noreferrer">NASA research updates ↗</a></article>
+    <article class="event" data-item data-cat="nasa" data-search="November 10 2026 LISA gravitational waves exoplanets worlds" data-id="news-lisa-worlds" data-title="Could gravitational waves reveal new worlds?" data-page="/news"><span class="badge">10 November 2026 · NASA</span><h3>Could gravitational waves reveal new worlds?</h3><p>Two NASA-led studies describe how the future LISA gravitational-wave observatory could help reveal a population of exoplanets through the effects of orbiting systems on gravitational-wave signals. This is a proposed scientific capability, not a confirmed planet discovery.</p><a href="https://earthsciences.gsfc.nasa.gov/astrophysics/exoplanets/pressreleases/" target="_blank" rel="noopener noreferrer">NASA source ↗</a></article>
+    <article class="event" data-item data-cat="nasa" data-search="November 2 2026 Hubble missing oxygen dwarf galaxies" data-id="news-hubble-oxygen" data-title="Hubble investigates missing oxygen in dwarf galaxies" data-page="/news"><span class="badge">2 November 2026 · NASA</span><h3>Hubble investigates missing oxygen in dwarf galaxies</h3><p>Observations of 37 nearby dwarf galaxies found less oxygen than researchers expected. The result raises questions about how gas and heavy elements move into and out of small galaxies.</p><a href="https://earthsciences.gsfc.nasa.gov/astrophysics/exoplanets/pressreleases/" target="_blank" rel="noopener noreferrer">NASA source ↗</a></article>
+    <article class="event" data-item data-cat="webb" data-search="September 15 2026 Webb IC 348 brown dwarfs star formation" data-id="news-webb-ic348" data-title="Webb reveals a dynamic star-forming region" data-page="/news"><span class="badge badge-violet">15 September 2026 · Webb</span><h3>Webb reveals a dynamic star-forming region</h3><p>New observations of IC 348 show newborn stars shaping their surroundings and identify very low-mass brown dwarfs, including objects with masses around twice Jupiter's. The findings add clues about how stars and planetary-mass objects form.</p><a href="https://www.stsci.edu/contents/news-releases/2026/news-2026-130" target="_blank" rel="noopener noreferrer">STScI release ↗</a></article>
+    <article class="event" data-item data-cat="eso" data-search="September 3 2026 ESO MOONS first light hidden stars galaxies" data-id="news-eso-moons" data-title="MOONS instrument achieves first light" data-page="/news"><span class="badge badge-green">3 September 2026 · ESO</span><h3>MOONS instrument achieves first light</h3><p>The new MOONS spectrograph at ESO's Very Large Telescope made its first observations. It is designed to observe up to 1,000 objects at once, helping researchers study stars and galaxies using visible and infrared light.</p><a href="https://www.hq.eso.org/public/announcements/ann26007/" target="_blank" rel="noopener noreferrer">ESO announcement ↗</a></article>
+    <article class="event" data-item data-cat="webb" data-search="August 11 2026 Webb water dust near Sagittarius A star IRS 3" data-id="news-webb-sgra" data-title="Dust and water near the Milky Way's central black hole" data-page="/news"><span class="badge badge-violet">11 August 2026 · ESA/Webb</span><h3>Dust and water observed near the Milky Way's central black hole</h3><p>Webb observations indicate that dust and water can persist close to Sagittarius A*. The evolved star IRS 3, located about 0.55 light-years away, appears to contribute material despite the extreme environment.</p><a href="https://esawebb.org/news/weic2617/" target="_blank" rel="noopener noreferrer">ESA/Webb release ↗</a></article>
+  </div>
+  <p class="empty" data-empty hidden>No research items match your search.</p>
+  <div class="callout reveal"><h3>How to read research news</h3><p>A press release is a summary, not the full scientific paper. Check the publication, methods, sample size, uncertainty, and whether a result is a direct observation, an interpretation, or a future possibility.</p></div>
+</section>
+</div><div class="view" data-view="future"><section class="hero hero-simple">
+  <div class="container">
+    <p class="eyebrow">The next frontier</p>
+    <h1>What Comes <span class="grad">Next?</span></h1>
+    <p class="lead">Future observatories and explorers will test today's ideas and reveal questions we have not learned to ask yet.</p>
+  </div>
+</section>
+
+<section class="container section">
+  <div class="section-head"><h2>Upcoming milestones and long-range goals</h2></div>
+  <div class="legend" aria-label="Status key">
+    <span class="badge badge-warm">Target date</span><span class="badge badge-violet">Long-term goal</span><span class="badge badge-green">Research concept</span>
+  </div>
+  <div class="timeline">
+    <article class="event reveal"><span class="badge badge-warm">2027</span><h3>Artemis III</h3><p>Planned crewed demonstration in low Earth orbit to test key operations with commercial human landing system test vehicles.</p></article>
+    <article class="event reveal"><span class="badge badge-warm">2027</span><h3>NEO Surveyor target</h3><p>NASA lists a 2027 target for its infrared asteroid-hunting observatory. Launch timing remains subject to mission readiness.</p></article>
+    <article class="event reveal"><span class="badge badge-warm">2028</span><h3>Dragonfly launch target</h3><p>Dragonfly is planned to launch toward Titan, where it will investigate surface chemistry and habitability-related questions.</p></article>
+    <article class="event reveal"><span class="badge badge-warm">Early 2028</span><h3>Artemis IV target</h3><p>NASA currently targets this mission for a crewed lunar landing, following Artemis III systems demonstrations.</p></article>
+    <article class="event reveal"><span class="badge badge-violet">Long term</span><h3>Moon to Mars</h3><p>Human exploration concepts include sustained lunar operations, improved life-support systems, radiation protection, and eventual crewed Mars missions. These are long-range goals, not fixed launch dates.</p></article>
+  </div>
+  <div class="callout reveal">
+    <h3>Important distinction</h3>
+    <p>“Planned,” “targeted,” “under development,” and “proposed concept” mean different things. A concept such as interstellar laser-sail travel is not equivalent to a funded spacecraft with a scheduled launch.</p>
+    <p>For current official schedules, consult the <a href="https://www.nasa.gov/event-type/launch-schedule/" target="_blank" rel="noopener noreferrer">NASA launch schedule</a>.</p>
+  </div>
+</section>
+</div><div class="view" data-view="assistant"><section class="hero hero-simple">
+  <div class="container">
+    <p class="eyebrow">Learning support</p>
+    <h1>Cosmic <span class="grad">Assistant</span></h1>
+    <p class="lead">Ask basic astronomy questions, get help navigating the site, and find reliable places to continue learning.</p>
+  </div>
+</section>
+
+<section class="container section">
+  <div class="section-head">
+    <h2>Ask a question</h2>
+    <p>This prototype is an offline question assistant with prepared astronomy explanations. It is not connected to a live AI model and does not send your questions anywhere.</p>
+  </div>
+  <div class="chatbox">
+    <div id="chatlog" class="chatlog" role="log" aria-live="polite" aria-label="Conversation">
+      <div class="message">Welcome! Ask me about stars, black holes, galaxies, exoplanets, light-years, or missions.</div>
+    </div>
+    <div class="chips suggest" aria-label="Suggested questions">
+      <button class="chip" type="button" data-ask="What is a black hole?">What is a black hole?</button>
+      <button class="chip" type="button" data-ask="What is a light-year?">What is a light-year?</button>
+      <button class="chip" type="button" data-ask="How are exoplanets found?">How are exoplanets found?</button>
+      <button class="chip" type="button" data-ask="Tell me about Artemis">Tell me about Artemis</button>
+    </div>
+    <form id="chat-form" class="chat-form" autocomplete="off">
+      <label class="sr-only" for="question">Your question</label>
+      <input id="question" maxlength="300" placeholder="Ask about the universe…" required>
+      <button class="btn btn-primary" type="submit">Send</button>
+    </form>
+  </div>
+</section>
+
+<section class="container section">
+  <div class="section-head"><h2>Help centre</h2></div>
+  <div class="grid">
+    <article class="card reveal"><div class="card-body"><h3>Finding topics</h3><p>Use the filter chips and search box above the cards on each page. Use the top navigation to switch sections.</p></div></article>
+    <article class="card reveal"><div class="card-body"><h3>Account help</h3><p>Use the bookmark button on any card to save it. Saved items are kept in this browser.</p><a class="more" href="#saved">Saved items →</a></div></article>
+    <article class="card reveal"><div class="card-body"><h3>Checking facts</h3><p>Research updates link to official agency or observatory releases. Always check the original source and publication date.</p><a class="more" href="#news">Research news →</a></div></article>
+  </div>
+</section>
+</div><div class="view" data-view="saved"><section class="container section"><div class="account-wrap">
+<div class="panel"><p class="eyebrow">Your reading list</p><h2>Saved items</h2><p class="small">Use the bookmark button on any mission, topic or news item. Saved items are stored in this browser only, so they will not follow you to another device.</p></div>
+<div class="panel"><p class="small" id="saved-empty">Nothing saved yet.</p><ul class="saved" id="saved-list"></ul></div>
+<div class="callout"><h3>About this hosted version</h3><p>This shareable page is the front end of Cosmic Frontier. Sign-up, passwords and server-side accounts need the Node server from the GitHub project, which cannot run on a static page.</p></div>
+</div></section></div></main>
+<footer class="site-footer"><div class="container footer-grid"><div><p class="brand-foot">Cosmic Frontier</p><p class="small">An astronomy learning hub. Explore beyond the stars.</p></div>
+<nav aria-label="Footer"><a href="#discover">Discover</a><a href="#missions">Missions</a><a href="#news">Research sources</a><a href="#assistant">Help centre</a><a href="#saved">Saved</a></nav></div>
+<div class="container"><p class="small legal">© 2026 Cosmic Frontier · Educational project. Mission schedules and research findings may change as new evidence becomes available.</p></div></footer>
+<div id="toasts" class="toasts" role="status" aria-live="polite"></div>
+<script>
+
+(()=>{'use strict';
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const CF=window.CF={reduceMotion:reduce,$,$$};
+CF.observeOnce=(el,fn)=>{if(!('IntersectionObserver' in window))return fn();const o=new IntersectionObserver(es=>{if(es[0].isIntersecting){o.disconnect();fn();}},{threshold:.3});o.observe(el);};
+CF.toast=(m,l)=>{const b=$('#toasts'),t=document.createElement('div');t.className='toast';t.append(document.createTextNode(m));if(l){const a=document.createElement('a');a.href=l.href;a.textContent=l.label;t.append(a);}b.append(t);setTimeout(()=>t.remove(),4000);};
+/* router */
+const VIEWS=$$('.view'),NAMES=VIEWS.map(v=>v.dataset.view);
+function route(){let h=decodeURIComponent(location.hash.slice(1));if(!NAMES.includes(h))h='home';
+ VIEWS.forEach(v=>v.classList.toggle('on',v.dataset.view===h));
+ $$('.site-nav li a').forEach(a=>a.getAttribute('href')==='#'+h?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+ $('#site-nav').classList.remove('open');$('.nav-toggle').setAttribute('aria-expanded','false');
+ scrollTo(0,0);document.dispatchEvent(new Event('cf:route'));}
+addEventListener('hashchange',route);
+const tg=$('.nav-toggle'),sn=$('#site-nav');
+tg.addEventListener('click',()=>{const o=sn.classList.toggle('open');tg.setAttribute('aria-expanded',String(o));});
+$$('a[target="_blank"]').forEach(a=>a.setAttribute('rel','noopener noreferrer'));
+/* counters */
+$$('[data-count]').forEach(el=>{const end=parseFloat(el.dataset.count),dec=parseInt(el.dataset.dec||'0',10);const f=v=>v.toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});el.textContent=f(end);});
+/* daily fact */
+const FACTS=['A day on Venus (one full rotation) is longer than its year.','Sunlight takes about 8 minutes and 20 seconds to reach Earth.','Some pulsars spin hundreds of times every second.','The Milky Way and the Andromeda galaxy are on course to merge in several billion years.','Saturn is the only planet whose average density is lower than water.','Most elements heavier than helium were forged inside stars or stellar explosions.',"Jupiter's Great Red Spot is a storm larger than Earth.",'The James Webb Space Telescope observes mainly infrared light, which can pass through dust that blocks visible light.'];
+const fe=$('[data-fact-text]');if(fe){const d=Math.floor((Date.now()-new Date(new Date().getFullYear(),0,0))/864e5);fe.textContent=FACTS[d%FACTS.length];}
+/* filters */
+$$('[data-toolbar]').forEach(bar=>{const target=$(bar.dataset.toolbar);if(!target)return;const items=$$('[data-item]',target),input=$('[data-search-input]',bar),count=bar.parentElement.querySelector('[data-count-out]'),empty=bar.parentElement.querySelector('[data-empty]');let cat='all';
+ const apply=()=>{const q=input?input.value.trim().toLowerCase():'';let n=0;items.forEach(it=>{const cats=(it.dataset.cat||'').split(' ');const hay=((it.dataset.search||'')+' '+it.textContent).toLowerCase();const ok=(cat==='all'||cats.includes(cat))&&(!q||hay.includes(q));it.hidden=!ok;if(ok)n++;});if(count)count.textContent=n+' of '+items.length+' shown';if(empty)empty.hidden=n!==0;};
+ $$('[data-filter]',bar).forEach(b=>b.addEventListener('click',()=>{cat=b.dataset.filter;$$('[data-filter]',bar).forEach(x=>{x.classList.toggle('is-active',x===b);x.setAttribute('aria-pressed',String(x===b));});apply();}));
+ if(input)input.addEventListener('input',apply);apply();});
+/* saved items (this browser only) */
+let saved=[];try{saved=JSON.parse(localStorage.getItem('cf-saved')||'[]');if(!Array.isArray(saved))saved=[];}catch(e){saved=[];}
+const store=()=>{try{localStorage.setItem('cf-saved',JSON.stringify(saved));}catch(e){}};
+const ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z" stroke-linejoin="round"/></svg>';
+const items=$$('[data-id]');const byId=Object.fromEntries(items.map(e=>[e.dataset.id,e]));
+function paint(){$$('.bm').forEach(b=>b.setAttribute('aria-pressed',String(saved.includes(b.dataset.bm))));
+ $('#saved-link').textContent='Saved ('+saved.filter(i=>byId[i]).length+')';
+ const list=$('#saved-list');list.replaceChildren();const ids=saved.filter(i=>byId[i]);$('#saved-empty').hidden=ids.length>0;
+ ids.forEach(id=>{const e=byId[id],li=document.createElement('li'),a=document.createElement('a');a.href='#'+e.dataset.page.replace('/','');a.textContent=e.dataset.title;const rm=document.createElement('button');rm.type='button';rm.className='btn btn-ghost btn-sm';rm.textContent='Remove';rm.addEventListener('click',()=>toggle(id));li.append(a,rm);list.append(li);});}
+function toggle(id){const i=saved.indexOf(id);i>=0?saved.splice(i,1):saved.push(id);store();paint();CF.toast(i>=0?'Removed from saved items.':'Saved in this browser.',i>=0?null:{href:'#saved',label:'View'});}
+items.forEach(el=>{const b=document.createElement('button');b.type='button';b.className='bm';b.dataset.bm=el.dataset.id;b.setAttribute('aria-pressed','false');b.setAttribute('aria-label','Save '+el.dataset.title);b.innerHTML=ICON;b.addEventListener('click',()=>toggle(el.dataset.id));el.append(b);});
+paint();
+/* timeline progress */
+const upd=()=>{$$('.timeline').forEach(tl=>{const r=tl.getBoundingClientRect();if(!r.height)return;const p=Math.min(1,Math.max(0,(innerHeight*.6-r.top)/r.height));tl.style.setProperty('--p','calc((100% - 12px) * '+p.toFixed(3)+')');});};
+addEventListener('scroll',upd,{passive:true});document.addEventListener('cf:route',upd);
+route();
+})();
+
+/* Parallax starfield with occasional shooting stars. Pauses when hidden; static if reduced motion. */
+(() => {
+  'use strict';
+  const canvas = document.getElementById('starfield');
+  if (!canvas || !canvas.getContext) return;
+  const ctx = canvas.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const TINTS = ['255,255,255', '200,225,255', '255,236,205', '190,205,255'];
+  let w = 0, h = 0, stars = [], shot = null, mx = 0, my = 0, raf = 0;
+
+  function resize() {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    w = innerWidth; h = innerHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const n = Math.min(260, Math.floor((w * h) / 8000));
+    stars = Array.from({ length: n }, () => ({
+      x: Math.random() * w, y: Math.random() * h, z: Math.random() * 0.9 + 0.1,
+      r: Math.random() * 1.3 + 0.25, ph: Math.random() * 6.28, tint: TINTS[(Math.random() * TINTS.length) | 0],
+    }));
+    if (reduce) draw(0);
+  }
+
+  function draw(t) {
+    ctx.clearRect(0, 0, w, h);
+    const sy = scrollY;
+    for (const s of stars) {
+      const x = (((s.x - mx * s.z * 14) % w) + w) % w;
+      const y = (((s.y - sy * s.z * 0.12 - my * s.z * 14) % h) + h) % h;
+      const a = reduce ? 0.8 * s.z : (0.45 + 0.55 * Math.sin(t / 900 + s.ph)) * s.z;
+      ctx.fillStyle = `rgba(${s.tint},${Math.max(0.12, a).toFixed(2)})`;
+      ctx.beginPath(); ctx.arc(x, y, s.r * (0.6 + s.z * 0.6), 0, 6.283); ctx.fill();
+    }
+    if (shot) {
+      shot.x += shot.vx; shot.y += shot.vy; shot.life -= 0.016;
+      const g = ctx.createLinearGradient(shot.x, shot.y, shot.x - shot.vx * 9, shot.y - shot.vy * 9);
+      g.addColorStop(0, `rgba(255,255,255,${Math.max(0, shot.life)})`); g.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.strokeStyle = g; ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.moveTo(shot.x, shot.y); ctx.lineTo(shot.x - shot.vx * 9, shot.y - shot.vy * 9); ctx.stroke();
+      if (shot.life <= 0) shot = null;
+    } else if (!reduce && Math.random() < 0.0018) {
+      shot = { x: Math.random() * w * 0.8, y: Math.random() * h * 0.4, vx: 9 + Math.random() * 5, vy: 3 + Math.random() * 3, life: 1 };
+    }
+  }
+
+  function loop(t) { draw(t); raf = requestAnimationFrame(loop); }
+
+  addEventListener('resize', resize);
+  if (!reduce) {
+    addEventListener('pointermove', (e) => { mx = e.clientX / w - 0.5; my = e.clientY / h - 0.5; }, { passive: true });
+    document.addEventListener('visibilitychange', () => {
+      cancelAnimationFrame(raf);
+      if (!document.hidden) raf = requestAnimationFrame(loop);
+    });
+  } else {
+    addEventListener('scroll', () => draw(0), { passive: true });
+  }
+  resize();
+  if (!reduce) raf = requestAnimationFrame(loop);
+})();
+
+/* Interactive solar-system diagram (home page) */
+(() => {
+  'use strict';
+  const svg = document.getElementById('orrery-svg');
+  if (!svg) return;
+
+  const PLANETS = {
+    mercury: { name: 'Mercury', type: 'Rocky planet', diam: '4,879 km', dist: '0.39 AU', year: '88 Earth days', fact: 'The smallest planet and the closest to the Sun.' },
+    venus: { name: 'Venus', type: 'Rocky planet', diam: '12,104 km', dist: '0.72 AU', year: '225 Earth days', fact: 'Its thick carbon-dioxide atmosphere makes it the hottest planet, with surface temperatures around 465 °C.' },
+    earth: { name: 'Earth', type: 'Rocky planet', diam: '12,742 km', dist: '1.00 AU', year: '365.25 days', fact: 'The only world known to host life, with liquid water covering about 71% of its surface.' },
+    mars: { name: 'Mars', type: 'Rocky planet', diam: '6,779 km', dist: '1.52 AU', year: '687 Earth days', fact: 'Home to Olympus Mons, the largest known volcano in the Solar System.' },
+    jupiter: { name: 'Jupiter', type: 'Gas giant', diam: '139,820 km', dist: '5.20 AU', year: '11.9 Earth years', fact: 'The largest planet, with more than 90 known moons and a storm, the Great Red Spot, bigger than Earth.' },
+    saturn: { name: 'Saturn', type: 'Gas giant', diam: '116,460 km', dist: '9.58 AU', year: '29.5 Earth years', fact: 'Famous for its ring system; its average density is lower than that of water.' },
+    uranus: { name: 'Uranus', type: 'Ice giant', diam: '50,724 km', dist: '19.2 AU', year: '84 Earth years', fact: 'Its axis is tilted about 98°, so it effectively rotates on its side.' },
+    neptune: { name: 'Neptune', type: 'Ice giant', diam: '49,244 km', dist: '30.1 AU', year: '165 Earth years', fact: 'Supersonic winds exceed 2,000 km/h. Its existence was predicted mathematically before it was seen in 1846.' },
+  };
+
+  const $ = (s) => document.querySelector(s);
+  const list = $('.planet-list');
+  const out = {
+    name: $('[data-p-name]'), type: $('[data-p-type]'), diam: $('[data-p-diam]'),
+    dist: $('[data-p-dist]'), year: $('[data-p-year]'), fact: $('[data-p-fact]'),
+  };
+
+  function select(key) {
+    const p = PLANETS[key];
+    if (!p) return;
+    out.name.textContent = p.name; out.type.textContent = p.type; out.diam.textContent = p.diam;
+    out.dist.textContent = p.dist; out.year.textContent = p.year; out.fact.textContent = p.fact;
+    svg.querySelectorAll('.planet').forEach((el) => el.classList.toggle('is-selected', el.dataset.planet === key));
+    list.querySelectorAll('button').forEach((b) => { const on = b.dataset.planet === key; b.classList.toggle('is-active', on); b.setAttribute('aria-pressed', String(on)); });
+  }
+
+  Object.entries(PLANETS).forEach(([key, p]) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip'; b.dataset.planet = key; b.textContent = p.name;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => select(key));
+    list.append(b);
+  });
+
+  svg.querySelectorAll('.planet').forEach((el) => {
+    el.addEventListener('click', () => select(el.dataset.planet));
+    el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(el.dataset.planet); } });
+  });
+
+  const pause = $('#orrery-toggle');
+  pause.addEventListener('click', () => {
+    const paused = svg.classList.toggle('is-paused');
+    pause.setAttribute('aria-pressed', String(paused));
+    pause.textContent = paused ? 'Resume orbits' : 'Pause orbits';
+  });
+
+  select('earth');
+})();
+
+/* Stars page: life-cycle explorer + temperature/colour/spectral-class widget */
+(() => {
+  'use strict';
+  const $ = (s) => document.querySelector(s);
+
+  /* ---------- life cycle ---------- */
+  const PATHS = {
+    sun: [
+      { name: 'Nebula', c: '#7aa8ff', text: 'Cold gas and dust gather into dense regions that may collapse to form stars.', time: 'Collapse begins over millions of years.' },
+      { name: 'Protostar', c: '#9f8bff', text: 'A forming star heats as gravity compresses its material. Fusion has not yet stabilised.', time: 'Tens of millions of years for a Sun-like star.' },
+      { name: 'Main sequence', c: '#ffe27a', text: 'Hydrogen fusion in the core supplies energy that counteracts gravitational collapse.', time: 'About 10 billion years in total for the Sun, which is roughly 4.6 billion years old.' },
+      { name: 'Red giant', c: '#ff8a5c', text: "After core hydrogen is depleted, the star's structure changes: it swells and cools at the surface.", time: 'Around a billion years or more.' },
+      { name: 'Planetary nebula', c: '#5eead4', text: 'The outer layers are shed into space, forming a glowing shell of gas around the hot core.', time: 'The shell is visible for only tens of thousands of years.' },
+      { name: 'White dwarf', c: '#d9e6ff', text: 'A hot, dense stellar core is left behind. It no longer fuses and slowly cools.', time: 'Cools over billions of years and beyond.' },
+    ],
+    massive: [
+      { name: 'Nebula', c: '#7aa8ff', text: 'Massive stars also begin in dense clouds of gas and dust.', time: 'Collapse begins over millions of years.' },
+      { name: 'Protostar', c: '#9f8bff', text: 'Gravity compresses the gas and heats the core until fusion can start.', time: 'Much faster than for a Sun-like star.' },
+      { name: 'Main sequence', c: '#8fb4ff', text: 'Massive stars burn very hot and blue, using their fuel far faster than the Sun does.', time: 'A few million to tens of millions of years.' },
+      { name: 'Supergiant', c: '#ff6b5c', text: 'The star swells and fuses heavier elements in successive shells.', time: 'Often around a million years or less.' },
+      { name: 'Supernova', c: '#ffd37a', text: 'When the core can no longer support the star, it collapses and the outer layers are blasted away.', time: 'Core collapse takes seconds; the remnant glows for thousands of years.' },
+      { name: 'Neutron star or black hole', c: '#b9b1ff', text: "Depending on the core's mass, an ultra-dense neutron star or a black hole remains.", time: 'The remnant can persist for an extraordinarily long time.' },
+    ],
+  };
+
+  const stagesEl = $('#stages');
+  if (stagesEl) {
+    let path = 'sun';
+    let idx = 2;
+    const orb = $('#stage-orb');
+    function renderStages() {
+      stagesEl.replaceChildren();
+      PATHS[path].forEach((s, i) => {
+        const li = document.createElement('li');
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'stage'; b.setAttribute('role', 'tab');
+        b.setAttribute('aria-selected', String(i === idx));
+        const dot = document.createElement('i');
+        dot.style.setProperty('--c', s.c);
+        const label = document.createElement('span');
+        label.textContent = s.name;
+        b.append(dot, label);
+        b.addEventListener('click', () => { idx = i; show(); });
+        li.append(b);
+        stagesEl.append(li);
+      });
+    }
+    function show() {
+      const s = PATHS[path][idx];
+      renderStages();
+      orb.style.setProperty('--c', s.c);
+      $('#stage-badge').textContent = `Stage ${idx + 1} of 6`;
+      $('#stage-title').textContent = s.name;
+      $('#stage-text').textContent = s.text;
+      $('#stage-time').textContent = s.time;
+    }
+    document.querySelectorAll('[data-path]').forEach((b) => b.addEventListener('click', () => {
+      path = b.dataset.path;
+      document.querySelectorAll('[data-path]').forEach((x) => { x.classList.toggle('is-active', x === b); x.setAttribute('aria-pressed', String(x === b)); });
+      show();
+    }));
+    show();
+  }
+
+  /* ---------- temperature → colour ---------- */
+  const slider = $('#temp');
+  if (!slider) return;
+  const TMIN = 2400, TMAX = 40000; // slider is logarithmic so cool stars get room
+  const clamp = (v) => Math.max(0, Math.min(255, Math.round(v)));
+  function kelvinToRgb(k) { // Tanner Helland's blackbody approximation
+    const t = k / 100;
+    const r = t <= 66 ? 255 : 329.698727446 * Math.pow(t - 60, -0.1332047592);
+    const g = t <= 66 ? 99.4708025861 * Math.log(t) - 161.1195681661 : 288.1221695283 * Math.pow(t - 60, -0.0755148492);
+    const b = t >= 66 ? 255 : t <= 19 ? 0 : 138.5177312231 * Math.log(t - 10) - 305.0447927307;
+    return [clamp(r), clamp(g), clamp(b)];
+  }
+  const CLASSES = [ // [letter, min K, example]
+    ['M', 0, 'Proxima Centauri'], ['K', 3700, 'Arcturus'], ['G', 5200, 'the Sun'],
+    ['F', 6000, 'Procyon'], ['A', 7500, 'Sirius'], ['B', 10000, 'Rigel'], ['O', 30000, 'Alnitak'],
+  ];
+  const classBox = $('#classes');
+  CLASSES.forEach(([l]) => { const s = document.createElement('span'); s.textContent = l; s.dataset.c = l; classBox.append(s); });
+
+  const toTemp = (v) => TMIN * Math.pow(TMAX / TMIN, v / 100);
+  const toSlider = (t) => (Math.log(t / TMIN) / Math.log(TMAX / TMIN)) * 100;
+
+  function update() {
+    const t = Math.round(toTemp(+slider.value) / 50) * 50;
+    const [r, g, b] = kelvinToRgb(t);
+    $('#star-orb').style.setProperty('--star', `rgb(${r},${g},${b})`);
+    $('#temp-out').textContent = `${t.toLocaleString('en-US')} K`;
+    let cls = CLASSES[0];
+    for (const c of CLASSES) if (t >= c[1]) cls = c;
+    classBox.querySelectorAll('span').forEach((s) => s.classList.toggle('is-on', s.dataset.c === cls[0]));
+    $('#sp-class').textContent = `Class ${cls[0]}`;
+    $('#sp-example').textContent = cls[2];
+  }
+  slider.addEventListener('input', update);
+  $('#temp-sun').addEventListener('click', () => { slider.value = toSlider(5772); update(); });
+  slider.value = toSlider(5772);
+  update();
+})();
+
+/* Discover page: light-travel-time scale (logarithmic bars) */
+(() => {
+  'use strict';
+  const rows = [...document.querySelectorAll('.lt-row')];
+  if (!rows.length) return;
+  const max = Math.max(...rows.map((r) => parseFloat(r.dataset.seconds)));
+  const scale = (s) => ((Math.log10(s) + 1) / (Math.log10(max) + 1)) * 100;
+  const run = () => rows.forEach((r) => r.querySelector('i').style.setProperty('--w', `${Math.max(4, scale(parseFloat(r.dataset.seconds))).toFixed(1)}%`));
+  const box = document.getElementById('lt');
+  if (window.CF && !CF.reduceMotion) CF.observeOnce(box, run); else run();
+})();
+
+/* Offline astronomy assistant: keyword-scored FAQ. No network calls; answers rendered with textContent. */
+(() => {
+  'use strict';
+  const log = document.getElementById('chatlog');
+  const form = document.getElementById('chat-form');
+  if (!log || !form) return;
+  const input = document.getElementById('question');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const KB = [
+    { k: ['light-year', 'light year', 'lightyear'], a: 'A light-year is the distance light travels in one year: about 9.46 trillion kilometres (roughly 5.88 trillion miles). It measures distance, not time.', l: ['/discover', 'See how far light travels'] },
+    { k: ['black hole', 'event horizon', 'singularity'], a: 'A black hole is a region where gravity is so strong that nothing, not even light, can escape once it crosses the event horizon. Many form when massive stars collapse; supermassive ones sit at the centres of galaxies, including Sagittarius A* in the Milky Way.', l: ['/discover', 'Explore black holes'] },
+    { k: ['milky way', 'our galaxy'], a: 'The Milky Way is a barred spiral galaxy with hundreds of billions of stars. Our Sun lies in one of its spiral arms, far from the centre.', l: ['/discover', 'Galaxies'] },
+    { k: ['galaxy', 'galaxies'], a: 'Galaxies are vast gravitational systems of stars, gas, dust, stellar remnants and dark matter. They range from small dwarfs to giants with trillions of stars.', l: ['/discover', 'Galaxies'] },
+    { k: ['exoplanet', 'exoplanets', 'planets beyond', 'transit', 'radial velocity'], a: 'Exoplanets are planets orbiting other stars. Astronomers find them mainly by watching for tiny dips in starlight as a planet passes in front (transits) and by measuring the wobble a planet causes in its star (radial velocity). Thousands have been confirmed.', l: ['/discover', 'Exoplanets'] },
+    { k: ['neutron star', 'pulsar'], a: 'A neutron star is an ultra-dense stellar remnant left after a supernova. Some spin rapidly and sweep beams of radiation across space; when those beams point at Earth we see pulsars.', l: ['/discover', 'Neutron stars'] },
+    { k: ['supernova', 'supernovae'], a: 'A supernova is the explosion of a star at the end of its life. Massive stars collapse and leave a neutron star or black hole; the blast also scatters heavy elements into space.', l: ['/stars', 'Life of a star'] },
+    { k: ['nebula', 'nebulae'], a: 'Nebulae are interstellar clouds of gas and dust. Some are stellar nurseries where new stars form; others are the remnants of dying stars.', l: ['/discover', 'Nebulae'] },
+    { k: ['white dwarf', 'planetary nebula'], a: 'Many low- and intermediate-mass stars end as white dwarfs: hot, dense cores that no longer fuse and slowly cool. They are often surrounded by a glowing shell of shed gas called a planetary nebula.', l: ['/stars', 'Life of a star'] },
+    { k: ['sun', 'our star'], a: 'The Sun is a G-type main-sequence star about 4.6 billion years old. It fuses hydrogen in its core and is roughly halfway through its main-sequence life.', l: ['/stars', 'How stars work'] },
+    { k: ['star', 'stars', 'stellar', 'main sequence'], a: 'Stars form when dense regions of molecular clouds collapse under gravity. Once hydrogen fusion starts, the star spends most of its life on the main sequence. Its mass largely decides its lifetime and fate.', l: ['/stars', 'Life of a star'] },
+    { k: ['star colour', 'star color', 'temperature', 'spectral class', 'blue star', 'red star'], a: 'Star colour tracks surface temperature: blue stars are hotter than red ones. Astronomers sort stars into spectral classes O, B, A, F, G, K and M from hottest to coolest. Try the temperature slider on the Stars page.', l: ['/stars', 'Temperature slider'] },
+    { k: ['planet', 'planets', 'solar system'], a: 'Our Solar System has eight recognised planets: four rocky (Mercury, Venus, Earth, Mars), two gas giants (Jupiter, Saturn) and two ice giants (Uranus, Neptune).', l: ['/', 'Interactive solar system'] },
+    { k: ['dark matter'], a: 'Dark matter is invisible matter detected only through its gravity. Together with dark energy it makes up most of the universe: roughly 27% dark matter, 68% dark energy and only about 5% ordinary matter.', l: ['/missions', 'Roman Space Telescope'] },
+    { k: ['dark energy'], a: 'Dark energy is the name for whatever is driving the accelerating expansion of the universe. Its nature is unknown; missions such as the Roman Space Telescope are designed to study it.', l: ['/missions', 'Missions'] },
+    { k: ['webb', 'jwst', 'james webb'], a: 'The James Webb Space Telescope observes mainly infrared light from an orbit around 1.5 million km from Earth. Infrared lets it see through dust and observe very distant, redshifted galaxies.', l: ['/news', 'Recent research'] },
+    { k: ['hubble'], a: 'The Hubble Space Telescope has observed the universe from low-Earth orbit since 1990, mostly in visible and ultraviolet light.', l: ['/news', 'Recent research'] },
+    { k: ['roman'], a: 'The Nancy Grace Roman Space Telescope is a wide-field observatory designed to investigate dark energy, dark matter and exoplanets.', l: ['/missions', 'Missions'] },
+    { k: ['artemis', 'moon landing', 'moon'], a: 'Artemis is NASA\'s programme to return humans to the Moon. This site lists Artemis III as a crewed low-Earth-orbit demonstration and Artemis IV as the first crewed landing target. Schedules are targets and may change.', l: ['/missions', 'Mission list'] },
+    { k: ['dragonfly', 'titan'], a: 'Dragonfly is a planned rotorcraft lander that will fly between sites on Saturn\'s moon Titan to study its chemistry and prebiotic environment.', l: ['/missions', 'Missions'] },
+    { k: ['neo surveyor', 'asteroid', 'planetary defense', 'planetary defence'], a: 'NEO Surveyor is an infrared space telescope designed to find and characterise near-Earth asteroids and comets that could pose hazards.', l: ['/missions', 'Missions'] },
+    { k: ['starshot', 'light sail', 'alpha centauri', 'interstellar'], a: 'Breakthrough Starshot is a research concept exploring whether tiny light-sail probes could one day travel towards Alpha Centauri. It is not an operational mission.', l: ['/future', 'Future goals'] },
+    { k: ['account', 'login', 'log in', 'sign up', 'signup', 'password', 'register', 'saved', 'bookmark'], a: 'You can create a free account to save missions and research items. Passwords are hashed on the server, sessions use secure HttpOnly cookies, and login attempts are rate-limited.', l: ['/account', 'Account page'] },
+    { k: ['search', 'find', 'filter', 'navigate', 'help'], a: 'Most pages have filter chips and a search box above the cards. Use the top navigation to switch sections, or ask me an astronomy question.', l: ['/discover', 'Try it on Discover'] },
+    { k: ['source', 'sources', 'verify', 'citation', 'fact check'], a: 'Research updates link to official NASA, ESA, ESO and STScI releases. A press release is a summary, not the full paper, so check the original source and date.', l: ['/news', 'Research news'] },
+    { k: ['hello', 'hi', 'hey', 'good morning', 'good evening'], a: 'Hello! Ask me about stars, black holes, galaxies, exoplanets, light-years, or space missions.' },
+    { k: ['thanks', 'thank you'], a: 'You are welcome. Keep looking up!' },
+  ];
+
+  const norm = (s) => s.toLowerCase().replace(/[^a-z0-9\s-]/g, ' ');
+  const compiled = KB.map((e) => ({ e, res: e.k.map((kw) => ({ kw, re: new RegExp(`(^|[^a-z0-9])${kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}s?($|[^a-z0-9])`) })) }));
+
+  function answer(q) {
+    const t = ' ' + norm(q) + ' ';
+    let best = null, bestScore = 0;
+    for (const { e, res } of compiled) {
+      let s = 0;
+      for (const { kw, re } of res) if (re.test(t)) s += kw.length;
+      if (s > bestScore) { bestScore = s; best = e; }
+    }
+    return best || { a: "I don't have a prepared answer for that. Try asking about stars, black holes, galaxies, exoplanets, light-years, nebulae or missions, or browse the Discover page.", l: ['/discover', 'Browse Discover'] };
+  }
+
+  function add(text, who, link) {
+    const m = document.createElement('div');
+    m.className = 'message' + (who === 'user' ? ' user' : '');
+    const p = document.createElement('span');
+    p.textContent = text;
+    m.append(p);
+    if (link) {
+      m.append(document.createElement('br'));
+      const a = document.createElement('a');
+      a.href = '#' + (link[0] === '/' ? 'home' : link[0].slice(1)); a.textContent = link[1] + ' →';
+      m.append(a);
+    }
+    log.append(m);
+    log.scrollTop = log.scrollHeight;
+    return m;
+  }
+
+  function ask(q) {
+    q = q.trim().slice(0, 300);
+    if (!q) return;
+    add(q, 'user');
+    const typing = document.createElement('div');
+    typing.className = 'message';
+    typing.innerHTML = '<span class="typing" aria-label="Assistant is typing"><i></i><i></i><i></i></span>'; // constant markup
+    log.append(typing);
+    log.scrollTop = log.scrollHeight;
+    setTimeout(() => {
+      typing.remove();
+      const r = answer(q);
+      add(r.a, 'bot', r.l);
+    }, reduce ? 0 : 450);
+  }
+
+  form.addEventListener('submit', (e) => { e.preventDefault(); const v = input.value; input.value = ''; ask(v); });
+  document.querySelectorAll('[data-ask]').forEach((b) => b.addEventListener('click', () => ask(b.dataset.ask)));
+})();
+
+</script>
+
+</body></html>
